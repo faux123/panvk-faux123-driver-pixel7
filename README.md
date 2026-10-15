@@ -82,6 +82,14 @@ Android 17 with a newer kernel driver. The fixes below are what it needed.
   when an app draws its G-buffer and its lighting in one render pass, PanVK
   switched hidden surface removal off for the G-buffer. Both are changed in
   v0.10.0. That scene is now 6% slower at 1080p and 2% slower at 2160p.
+- **A game ran at under one frame a second, then lost the GPU** (Dragon Ball
+  Sparking Zero in Fauxium, its opening cinematic). Two jobs on the GPU at once
+  could be given the same scratch memory for the values their shaders set aside,
+  so one overwrote the other's. A cloth and particle shader then read garbage
+  and one pass took 5.2 seconds. Since v0.11.0 each size of scratch memory gets
+  its own region, a fix carried over from my
+  [GameForce Ace build](https://github.com/faux123/panvk-faux123-driver-ace).
+  The cinematic now plays at 6 to 8 frames a second, and that pass takes 1.5 ms.
 
 ---
 
