@@ -29,9 +29,32 @@ promises anywhere else. See [Other devices](#other-devices-not-tested-no-guarant
 Grab the latest `.adpkg.zip` from [Releases](../../releases) and import it in an
 app whose driver picker accepts a PanVK package on Mali.
 
+## One driver for all four devices
+
+Starting with v1.0.0, this repository and my other three PanVK repositories ship
+the same driver: one `libvulkan_panfrost.so`, built from one source tree, for the
+[GameForce Ace](https://github.com/faux123/panvk-faux123-driver-ace) (Mali-G610), [Pixel 7](https://github.com/faux123/panvk-faux123-driver-pixel7) (Mali-G710), [Retroid Pocket 4 Pro](https://github.com/faux123/panvk-faux123-driver-rp4pro) (Mali-G77), and [RG556](https://github.com/faux123/panvk-faux123-driver-rg556) (Mali-G57). When the driver starts, it reads the GPU, the chip, and the kernel
+driver, and turns on only the fixes that device needs.
+
+Going forward:
+
+- Each repository keeps its own package name,
+  `panvk_faux123_pixel7_<version>.adpkg.zip`. Download from the repository for your
+  device, as before.
+- Every release comes out in all four repositories at the same time, with the
+  same version number and the same library inside.
+- A fix found on one device reaches the other three in the next release.
+- I test each release on all four of my devices before it goes out. Other Mali
+  devices are still untested: see [Other devices](#other-devices-not-tested-no-guarantees).
+
+The "What I added" and "How it was tested" sections below are the history of
+this device's earlier builds. Every fix listed there is carried into v1.0.0,
+either as my patch or as the equivalent change that is now in the base.
+
 ## Test it on your device
 
 - **FauxVkTest** (free, Google Play): compare this driver against your stock driver on your own device. https://play.google.com/store/apps/details?id=com.faux.vktest&referrer=utm_source%3Dgithub%26utm_campaign%3Dpanvk-faux123-driver-pixel7 What it checks, in a 6-minute video: https://www.youtube.com/watch?v=CpEBlNcZmwo
+- **All faux123 drivers** (Turnip for Adreno, PanVK for Mali), and every graphics chip each one has run on, in ten languages: https://canonspike.com/drivers/
 - **FauxVkDB**: see how other devices score with stock and custom drivers. https://fauxvkdb.canonspike.com/
 - **More apps from the same developer** (FauxClockNG, FauxCooling, RomRoster, Net SD card, and more): https://fauxapps.canonspike.com/
 - **FauxApps Discord**: driver release news, questions, and results from other players. https://discord.gg/ceyPguKNbu
@@ -46,9 +69,9 @@ Nothing here is a repackaged binary from somewhere else. It is built from source
 | | |
 |---|---|
 | Source | [`gitlab.freedesktop.org/mesa/mesa`](https://gitlab.freedesktop.org/mesa/mesa), 26.3.0-devel at commit `5a07217f` |
-| `mali_kbase` support | the patch series from [`zenithblue-oss/panvk-kbase-android`](https://github.com/zenithblue-oss/panvk-kbase-android), release `v0.1.0-rc3` (`fd6ed91`) |
-| My patches | summarized under [What I added](#what-i-added) |
-| Toolchain | Android NDK 27.3, meson cross build, `aarch64`, API level 33 |
+| `mali_kbase` support | the patch series from [`zenithblue-oss/panvk-kbase-android`](https://github.com/zenithblue-oss/panvk-kbase-android), release `v0.1.0-rc4` (`5b87b74`) |
+| My patches | 49 on top of that series, shared by all four devices; earlier ones are summarized under [What I added](#what-i-added) |
+| Toolchain | Android NDK 27.3, meson cross build, `aarch64`, API level 29 |
 | Packaging | `.adpkg.zip`: `libvulkan_panfrost.so` plus `meta.json` |
 
 **Every release names the exact build**, in its release notes and in the
@@ -159,10 +182,7 @@ Concretely, on any other device:
 Use it if you want to, but that is the honest state of it, and you are on your
 own with it.
 
-I build one driver per device I own, because that is the only way I can test
-it: [GameForce Ace](https://github.com/faux123/panvk-faux123-driver-ace),
-[Retroid Pocket 4 Pro](https://github.com/faux123/panvk-faux123-driver-rp4pro),
-and [RG556](https://github.com/faux123/panvk-faux123-driver-rg556).
+The same driver is released for each device I own, each in its own repository: [GameForce Ace](https://github.com/faux123/panvk-faux123-driver-ace) (Mali-G610), [Retroid Pocket 4 Pro](https://github.com/faux123/panvk-faux123-driver-rp4pro) (Mali-G77), and [RG556](https://github.com/faux123/panvk-faux123-driver-rg556) (Mali-G57).
 
 ## Installing
 
